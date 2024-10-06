@@ -1,4 +1,5 @@
 import 'package:book_logger/blocs/collection_detailed_page_bloc/collection_detailed_page_bloc.dart';
+import 'package:book_logger/widgets/add_book_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,7 @@ class CollectionDetailedPage extends StatelessWidget {
           )
         ],
       ),
-      body: _Content(),
+      body: const _Content(),
     );
   }
 }
@@ -47,7 +48,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CollectionDetailedPageBloc, CollectionDetailedPageState>(
       builder: (context, state) {
-        return state.isNew ? _NoBooksContent() : _BooksList();
+        return state.isNew ? const _NoBooksContent() : const _BooksList();
       },
     );
   }
@@ -56,11 +57,23 @@ class _Content extends StatelessWidget {
 class _NoBooksContent extends StatelessWidget {
   const _NoBooksContent({super.key});
 
+  void _showAddBookFormSheet(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return AddBookForm();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: TextButton.icon(
-        onPressed: () {},
+        onPressed: () => _showAddBookFormSheet(context),
         label: Text("Add your first book"),
         icon: Icon(Icons.add),
       ),
